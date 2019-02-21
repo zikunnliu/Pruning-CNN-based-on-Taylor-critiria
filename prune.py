@@ -89,7 +89,7 @@ def prune_vgg16_conv_layer(model, layer_index, filter_index): #第Layer_index层
     if not next_conv is None:
         features = torch.nn.Sequential(
             *(replace_layers(model.features, i, [layer_index, layer_index + offset], \
-                             [new_conv, next_new_conv]) for i, _ in enumerate(model.features)))    #？？？？？
+                             [new_conv, next_new_conv]) for i, _ in enumerate(model.features)))   
         del model.features
         del conv
 
