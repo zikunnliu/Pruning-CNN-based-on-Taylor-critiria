@@ -14,7 +14,7 @@ import os
 
 def loader(path, batch_size=32, num_workers=4, pin_memory=True):
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    return data.DataLoader(        #why dataloader?   and 数据的形式？
+    return data.DataLoader(        #数据的形式
         datasets.ImageFolder(path,
                              transforms.Compose([
                                  transforms.Scale(256),
@@ -26,7 +26,7 @@ def loader(path, batch_size=32, num_workers=4, pin_memory=True):
         batch_size=batch_size,
         shuffle=True,
         num_workers=num_workers,
-        pin_memory=pin_memory)      #why?
+        pin_memory=pin_memory)      
 
 def test_loader(path, batch_size=32, num_workers=4, pin_memory=True):
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
