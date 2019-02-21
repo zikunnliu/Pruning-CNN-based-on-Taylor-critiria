@@ -157,7 +157,7 @@ class PrunningFineTuner_VGG16:
     def train(self, optimizer=None, epoches=10):
         if optimizer is None:
             optimizer = \
-                optim.SGD(model.classifier.parameters(),        #???只对分类器进行训练？
+                optim.SGD(model.classifier.parameters(),        #只对分类器进行训练
                           lr=0.0001, momentum=0.9)
         for i in range(epoches):
             print(\
@@ -173,7 +173,7 @@ class PrunningFineTuner_VGG16:
 
         if rank_filters:
             output = self.prunner.forward(input)
-            self.criterion(output, Variable(label)).backward()   #为什么不更新权重
+            self.criterion(output, Variable(label)).backward()   
         else:
             self.criterion(self.model(input), Variable(label)).backward()
             optimizer.step()
