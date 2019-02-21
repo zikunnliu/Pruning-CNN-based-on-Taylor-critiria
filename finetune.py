@@ -65,7 +65,7 @@ class FilterPrunner:
             x = module(x)     #一层一层计算结果
             if isinstance(module, torch.nn.modules.conv.Conv2d): #如果是卷积层就加上钩子
                 x.register_hook(self.compute_rank)
-                self.activations.append(x)          #x的size?????????   N，C，H，W
+                self.activations.append(x)          #x的size  N，C，H，W
                 self.activation_to_layer[activation_index] = layer   #卷积层的序号和层序号的对应关系
                 activation_index += 1
 
@@ -76,7 +76,7 @@ class FilterPrunner:
         activation = self.activations[activation_index]
         values = \
             torch.sum((activation * grad), dim=0). \
-                sum(dim=2).sum(dim=3)[0, :, 0, 0].data    #？？？？？？？？？？？？？？？？？？？？？？
+                sum(dim=2).sum(dim=3)[0, :, 0, 0].data    
 
         # Normalize the rank by the filter dimensions
         values = \
@@ -98,7 +98,7 @@ class FilterPrunner:
         return nsmallest(num, data, itemgetter(2))#通过比较data的第三个数据（rank），找出num个最小的值之list
 
     def normalize_ranks_per_layer(self):
-        for i in self.filter_ranks: #为什么可以记住？？？？？？？？？？
+        for i in self.filter_ranks: 
             v = torch.abs(self.filter_ranks[i])
             v = v / np.sqrt(torch.sum(v * v))
             self.filter_ranks[i] = v.cpu()
@@ -112,7 +112,7 @@ class FilterPrunner:
         for (l, f, _) in filters_to_prune:
             if l not in filters_to_prune_per_layer:
                 filters_to_prune_per_layer[l] = []
-            filters_to_prune_per_layer[l].append(f)     #???????????????????????????????
+            filters_to_prune_per_layer[l].append(f)     
 
         for l in filters_to_prune_per_layer:
             filters_to_prune_per_layer[l] = sorted(filters_to_prune_per_layer[l])
@@ -138,7 +138,7 @@ class PrunningFineTuner_VGG16:
         self.model.train()   #训练模式&测试模式
 
     def test(self):
-        self.model.eval()  #？？？？？？？？
+        self.model.eval() 
         correct = 0
         total = 0
 
@@ -212,7 +212,7 @@ class PrunningFineTuner_VGG16:
         num_filters_to_prune_per_iteration = 512
         iterations = int(float(number_of_filters) / num_filters_to_prune_per_iteration)
 
-        iterations = int(iterations * 2.0 / 3)#？？？？？？？？？？
+        iterations = int(iterations * 2.0 / 3)
 
         print(\
             "Number of prunning iterations to reduce 67% filters", iterations)
